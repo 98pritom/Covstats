@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "228796344164",
+    "firebase_url": "https://covstats-app-default-rtdb.firebaseio.com",
+    "project_id": "covstats-app",
+    "storage_bucket": "covstats-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:228796344164:android:d9c1342d4e8160a70abc71",
+        "android_client_info": {
+          "package_name": "com.example.covstats"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "228796344164-gmfdpvudoliq574f9sab14eejdesfenh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbo16tO-p98Vu9ml7f3mMrDShjQKc-FgY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "228796344164-gmfdpvudoliq574f9sab14eejdesfenh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
