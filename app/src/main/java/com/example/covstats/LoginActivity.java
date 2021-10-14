@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -48,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         editPass = findViewById(R.id.loginPass);
         loginToSignup = findViewById(R.id.signinToSignup);
         signinButton = findViewById(R.id.loginbutton);
-        skip = findViewById(R.id.skip);
+        skip = findViewById(R.id.Skip);
         forgotpassword = findViewById(R.id.forgotpass);
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -91,57 +90,59 @@ public class LoginActivity extends AppCompatActivity {
 
                 //reset password
 
-                forgotpassword.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        EditText resetMail = new EditText(view.getContext());
-                        AlertDialog.Builder passwordResetDialog = new AlertDialog.Builder(view.getContext());
-                        passwordResetDialog.setTitle("Reset Password");
-                        passwordResetDialog.setMessage("Enter your email to receive reset link");
-                        passwordResetDialog.setView(resetMail);
-
-                        passwordResetDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                //extract the email and send reset link
-
-                                String mail = resetMail.getText().toString();
-                                firebaseAuth.sendPasswordResetEmail(mail).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        Toast.makeText(LoginActivity.this, "Reset link sent to your email", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                                addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(LoginActivity.this, "Error sending mail" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                                
-
-                            }
-
-                            private void addOnFailureListener(OnFailureListener onFailureListener) {
-                            }
-                        });
-
-                        passwordResetDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                //close the dialog
-                            }
-                        });
-
-                        passwordResetDialog.create().show();
-                    }
-                });
-
-
             }
 
 
         });
+
+        //reset password
+        forgotpassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText resetMail = new EditText(view.getContext());
+                AlertDialog.Builder passwordResetDialog = new AlertDialog.Builder(view.getContext());
+                passwordResetDialog.setTitle("Reset Password");
+                passwordResetDialog.setMessage("Enter your email to receive reset link");
+                passwordResetDialog.setView(resetMail);
+
+                passwordResetDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //extract the email and send reset link
+
+                        String mail = resetMail.getText().toString();
+                        firebaseAuth.sendPasswordResetEmail(mail).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Toast.makeText(LoginActivity.this, "Reset link sent to your email", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(LoginActivity.this, "Error sending mail" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+
+                    }
+
+                    private void addOnFailureListener(OnFailureListener onFailureListener) {
+                    }
+                });
+
+                passwordResetDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //close the dialog
+                    }
+                });
+
+                passwordResetDialog.create().show();
+
+            }
+        });
+
 
         loginToSignup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,7 +154,7 @@ public class LoginActivity extends AppCompatActivity {
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                startActivity(new Intent(getApplicationContext(),Statistic.class));
             }
         });
 

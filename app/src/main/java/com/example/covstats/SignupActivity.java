@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.covstats.Adapter.CountryWiseAdapter;
+import com.example.covstats.Models.CountryWiseModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -29,14 +31,12 @@ import java.util.HashMap;
 
 public class SignupActivity extends AppCompatActivity {
 
+    String name, email,password;
     private EditText editNameText, editEmailText, editPass;
     private Button signupButton;
     private TextView signupToLogin;
     private TextView skip;
     private FirebaseAuth firebaseAuth;
-    String name, email,password;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class SignupActivity extends AppCompatActivity {
         editNameText = findViewById(R.id.nametext);
         editEmailText = findViewById(R.id.emailinput);
         editPass = findViewById(R.id.editpass);
-        skip = findViewById(R.id.signupSkip);
+        skip = findViewById(R.id.Skip);
         signupButton = findViewById(R.id.signupbutton);
         signupToLogin = findViewById(R.id.loginbutton);
 
@@ -120,7 +120,7 @@ public class SignupActivity extends AppCompatActivity {
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), Statistic.class));
             }
         });
 

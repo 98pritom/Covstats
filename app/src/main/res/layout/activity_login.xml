@@ -85,7 +85,7 @@
         app:layout_constraintTop_toBottomOf="@+id/loginbutton" />
 
     <TextView
-        android:id="@+id/skip"
+        android:id="@+id/Skip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="317dp"

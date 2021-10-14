@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        System.out.println(user.getUid());
+//        System.out.println(user.getUid());
     }
 
     public void logout(View view) {

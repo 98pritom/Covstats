@@ -3,11 +3,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Development/COVSTATS/app/src/main/res/drawable/bg_loading.xml" value="0.20925925925925926" />
+        <entry key="..\:/Development/COVSTATS/app/src/main/res/drawable/edit_text_bg.xml" value="0.20462962962962963" />
         <entry key="..\:/Development/COVSTATS/app/src/main/res/drawable/editboxbg.xml" value="0.2203125" />
-        <entry key="..\:/Development/COVSTATS/app/src/main/res/layout/activity_login.xml" value="0.25" />
+        <entry key="..\:/Development/COVSTATS/app/src/main/res/drawable/search_icon.xml" value="0.20462962962962963" />
+        <entry key="..\:/Development/COVSTATS/app/src/main/res/layout/activity_country_data.xml" value="0.209375" />
+        <entry key="..\:/Development/COVSTATS/app/src/main/res/layout/activity_each_countrydata.xml" value="0.209375" />
+        <entry key="..\:/Development/COVSTATS/app/src/main/res/layout/activity_login.xml" value="0.22" />
         <entry key="..\:/Development/COVSTATS/app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="..\:/Development/COVSTATS/app/src/main/res/layout/activity_signup.xml" value="0.25555555555555554" />
+        <entry key="..\:/Development/COVSTATS/app/src/main/res/layout/activity_signup.xml" value="0.22" />
         <entry key="..\:/Development/COVSTATS/app/src/main/res/layout/activity_splash_screen.xml" value="0.20416666666666666" />
+        <entry key="..\:/Development/COVSTATS/app/src/main/res/layout/activity_statistic.xml" value="0.22" />
+        <entry key="..\:/Development/COVSTATS/app/src/main/res/layout/activity_world_data.xml" value="0.209375" />
+        <entry key="..\:/Development/COVSTATS/app/src/main/res/layout/layout_countrywise.xml" value="0.22" />
+        <entry key="..\:/Development/COVSTATS/app/src/main/res/layout/progress_dialog.xml" value="0.209375" />
+        <entry key="..\:/Development/COVSTATS/app/src/main/res/menu/menu.xml" value="0.209375" />
       </map>
     </option>
   </component>

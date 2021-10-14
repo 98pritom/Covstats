@@ -10,6 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.COVSTATS">
         <activity
+            android:name=".EachCountrydataActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Country_Data"
+            android:exported="true" />
+        <activity
+            android:name=".World_Data"
+            android:exported="true" />
+        <activity
+            android:name=".Statistic"
+            android:exported="true" />
+        <activity
             android:name=".SignupActivity"
             android:exported="true" />
         <activity
@@ -20,16 +32,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".LoginActivity"
             android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true" />
     </application>
 
 </manifest>
