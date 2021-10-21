@@ -32,17 +32,18 @@
             android:textSize="16sp"/>
 
         <androidx.cardview.widget.CardView
-            android:layout_width="55dp"
-            android:layout_height="35dp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
             app:cardCornerRadius="4dp">
 
             <ImageView
                 android:id="@+id/layout_country_wise_flag_imageview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop" />
+                android:layout_width="55dp"
+                android:layout_height="35dp"
+                android:scaleType="centerCrop"
+                android:visibility="gone"/>
         </androidx.cardview.widget.CardView>
 
         <TextView

@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -22,15 +23,20 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText editEmailText, editPass;
+    private EditText email, password;
     private Button signinButton;
     private TextView loginToSignup;
     private TextView skip;
     private TextView forgotpassword;
     private FirebaseAuth firebaseAuth;
+    FirebaseFirestore fStore;
+    boolean valid = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +49,14 @@ public class LoginActivity extends AppCompatActivity {
             ((Window) window).setStatusBarColor(getResources().getColor(R.color.white));
         }
 
-        editEmailText = findViewById(R.id.emailInput);
-        editPass = findViewById(R.id.loginPass);
+        email = findViewById(R.id.emailInput);
+        password = findViewById(R.id.loginPass);
         loginToSignup = findViewById(R.id.signinToSignup);
         signinButton = findViewById(R.id.loginbutton);
         skip = findViewById(R.id.Skip);
         forgotpassword = findViewById(R.id.forgotpass);
         firebaseAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
 
         getSupportActionBar().hide();
 
@@ -57,38 +64,23 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String email = editEmailText.getText().toString().trim();
-                String password = editPass.getText().toString().trim();
+                checkField(email);
+                checkField(password);
 
-                if (email.isEmpty()){
-                    editEmailText.setError("Please fill out this field");
-                    return;
-                }
-                if (password.isEmpty()){
-                    editPass.setError("Please fill out this field");
-                    return;
-                }
-                if (password.length() < 6){
-                    editPass.setError("Password must be 6 characters or more");
-                    return;
-                }
-
-                //authenticate the user
-
-                firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
+                if (valid){
+                    firebaseAuth.signInWithEmailAndPassword(email.getText().toString(),password.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                        @Override
+                        public void onSuccess(AuthResult authResult) {
                             Toast.makeText(LoginActivity.this, "Logged in successfully", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                            checkUserAccessLevel(authResult.getUser().getUid());
                         }
-                        else {
-                            Toast.makeText(LoginActivity.this, "Login failed"+task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
 
-                //reset password
+                        }
+                    });
+                }
 
             }
 
@@ -160,9 +152,49 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    private void checkUserAccessLevel(String uid) {
+        DocumentReference df =fStore.collection("Users").document(uid);
+        //extract the data from the document
+        df.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Log.d("TAG","onSuccess: " + documentSnapshot.getData());
+                //identify the user access level
 
+                if (documentSnapshot.getString("isAdmin") != null){
+                    //user is admin
+                    startActivity(new Intent(getApplicationContext(),Admin.class));
+                    finish();
+                }
+                if (documentSnapshot.getString("isUser") != null){
+                    //normal user
+                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                    finish();
+                }
 
+            }
+        });
+    }
 
+    public boolean checkField(EditText textField){
+        if(textField.getText().toString().isEmpty()){
+            textField.setError("Error");
+            valid = false;
+        }else {
+            valid = true;
+        }
+
+        return valid;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (FirebaseAuth.getInstance().getCurrentUser() != null){
+            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            finish();
+        }
+    }
 }
 
 

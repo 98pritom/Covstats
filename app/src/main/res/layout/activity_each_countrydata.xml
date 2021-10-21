@@ -179,7 +179,7 @@
                             android:layout_marginTop="5dp"
                             android:layout_marginBottom="35dp"
                             android:gravity="center"
-                            android:textColor="@color/Yellow"
+                            android:textColor="@color/black"
                             android:textSize="16sp" />
 
                     </LinearLayout>

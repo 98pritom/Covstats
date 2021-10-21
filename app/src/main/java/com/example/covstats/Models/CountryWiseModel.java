@@ -10,10 +10,9 @@ public class CountryWiseModel {
     private String newDeceased;
     private String recovered;
     private String tests;
-    private String flag;
 
 
-    public CountryWiseModel(String country, String confirmed, String newConfirmed, String active, String deceased, String newDeceased, String recovered, String tests, String flag) {
+    public CountryWiseModel(String country, String confirmed, String newConfirmed, String active, String deceased, String newDeceased, String recovered, String tests) {
         this.country = country;
         this.confirmed = confirmed;
         this.newConfirmed = newConfirmed;
@@ -22,7 +21,7 @@ public class CountryWiseModel {
         this.newDeceased = newDeceased;
         this.recovered = recovered;
         this.tests = tests;
-        this.flag = flag;
+
     }
 
     public String getCountry() {
@@ -57,7 +56,4 @@ public class CountryWiseModel {
         return tests;
     }
 
-    public String getFlag() {
-        return flag;
-    }
 }

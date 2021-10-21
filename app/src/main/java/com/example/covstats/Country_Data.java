@@ -1,6 +1,7 @@
 package com.example.covstats;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,6 +9,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.ProgressDialog;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -15,12 +17,14 @@ import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.covstats.Adapter.CountryWiseAdapter;
 import com.example.covstats.Models.CountryWiseModel;
@@ -110,7 +114,7 @@ public class Country_Data extends AppCompatActivity {
         ShowDialog(); //
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String apiURL = "https://corona.lmao.ninja/v2/countries";
+        String apiURL = "https://coronavirus-19-api.herokuapp.com/countries/";
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
                 apiURL,
@@ -121,6 +125,7 @@ public class Country_Data extends AppCompatActivity {
                         try {
                             countryWiseModelArrayList.clear();
                             for (int i=0;i<response.length(); i++){
+                                System.out.println("=============="+i);
                                 JSONObject countryJSONObject = response.getJSONObject(i);
 
                                 str_country = countryJSONObject.getString("country");
@@ -130,13 +135,11 @@ public class Country_Data extends AppCompatActivity {
                                 str_recovered = countryJSONObject.getString("recovered");
                                 str_death = countryJSONObject.getString("deaths");
                                 str_death_new = countryJSONObject.getString("todayDeaths");
-                                str_tests = countryJSONObject.getString("tests");
-                                JSONObject flagObject = countryJSONObject.getJSONObject("countryInfo");
-                                String flagUrl = flagObject.getString("flag");
+                                str_tests = countryJSONObject.getString("totalTests");
 
                                 //Creating an object of our country model class and passing the values in the constructor
                                 CountryWiseModel countryWiseModel  = new CountryWiseModel(str_country, str_confirmed, str_confirmed_new, str_active,
-                                        str_death, str_death_new, str_recovered, str_tests, flagUrl);
+                                        str_death, str_death_new, str_recovered, str_tests);
                                 //adding data to our arraylist
                                 countryWiseModelArrayList.add(countryWiseModel);
                             }
@@ -150,6 +153,7 @@ public class Country_Data extends AppCompatActivity {
                                     }
                                 }
                             });
+
                             Handler makeDelay = new Handler();
                             makeDelay.postDelayed(new Runnable() {
                                 @Override

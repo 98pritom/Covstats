@@ -1,5 +1,6 @@
 package com.example.covstats;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +9,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -32,7 +41,7 @@ public class SplashScreen extends AppCompatActivity {
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                } finally {
+                } finally{
                     Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
                     startActivity(intent);
                 }

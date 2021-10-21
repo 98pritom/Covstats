@@ -19,31 +19,37 @@ import android.widget.Toast;
 import com.example.covstats.Adapter.CountryWiseAdapter;
 import com.example.covstats.Models.CountryWiseModel;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.sql.DatabaseMetaData;
 import java.util.HashMap;
+import java.util.Map;
 
 public class SignupActivity extends AppCompatActivity {
 
-    String name, email,password;
-    private EditText editNameText, editEmailText, editPass;
-    private Button signupButton;
-    private TextView signupToLogin;
-    private TextView skip;
-    private FirebaseAuth firebaseAuth;
+//   String eml,pass;
+//     EditText fullName, editEmailText, editPass;
+    EditText fullName,email,password;
+     Button signupButton;
+     TextView signupToLogin;
+     TextView skip;
+     FirebaseAuth firebaseAuth;
+    FirebaseFirestore fStore;
+    boolean valid = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-
-        firebaseAuth = FirebaseAuth.getInstance();
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
@@ -54,61 +60,57 @@ public class SignupActivity extends AppCompatActivity {
             ((Window) window).setStatusBarColor(getResources().getColor(R.color.white));
         }
 
-        editNameText = findViewById(R.id.nametext);
-        editEmailText = findViewById(R.id.emailinput);
-        editPass = findViewById(R.id.editpass);
+        fullName = findViewById(R.id.nametext);
+        email = findViewById(R.id.emailinput);
+        password = findViewById(R.id.editpass);
         skip = findViewById(R.id.Skip);
         signupButton = findViewById(R.id.signupbutton);
         signupToLogin = findViewById(R.id.loginbutton);
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
+
+
+
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                name = editNameText.getText().toString().trim();
-                email = editEmailText.getText().toString().trim();
-                password = editPass.getText().toString().trim();
 
-                if (name.isEmpty()){
-                    editNameText.setError("Please fill out this field");
-                    return;
-                }
-                if (email.isEmpty()){
-                    editEmailText.setError("Please fill out this field");
-                    return;
-                }
-                if (password.isEmpty()){
-                    editPass.setError("Please fill out this field");
-                    return;
-                }
-                if (password.length() < 6){
-                    editPass.setError("Password must be 6 characters or more");
-                    return;
-                }
+                checkField(fullName);
+                checkField(email);
+                checkField(password);
 
-                //register the user in firebase & realtime
+                if (valid){
+                    String eml = email.getText().toString();
+                    String pass = password.getText().toString();
+                    //star the user reg process
+                    firebaseAuth.createUserWithEmailAndPassword(eml,pass).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
 
-                firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            //realtime
-                            HashMap<String, Object> map = new HashMap<>();
-                            map.put("Name",name);
-                            map.put("Email",email);
-                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                            String uid = user.getUid();
-                            FirebaseDatabase.getInstance().getReference().child("User").child(uid).setValue(map);
-                            Toast.makeText(SignupActivity.this, "User account created", Toast.LENGTH_SHORT).show();
+                        @Override
+                        public void onSuccess(AuthResult authResult) {
+                            FirebaseUser user = firebaseAuth.getCurrentUser();
+                            Toast.makeText(SignupActivity.this,"Account is created",Toast.LENGTH_SHORT).show();
+                            DocumentReference df = fStore.collection("Users").document(user.getUid());
+                            Map<String,Object> userInfo = new HashMap<>();
+                            userInfo.put("FullName",fullName.getText().toString());
+                            userInfo.put("UserEmail",email.getText().toString());
+                            userInfo.put("isUser","1");
+                            df.set(userInfo);
                             startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                            finish();
                         }
-                        else{
-                            Toast.makeText(SignupActivity.this, "Error!"+task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(SignupActivity.this, "Failed to create account", Toast.LENGTH_SHORT).show();
                         }
-                    }
-                });
+                    });
+
+                }
 
             }
         });
+
 
         signupToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,8 +128,16 @@ public class SignupActivity extends AppCompatActivity {
 
 
     }
-
-
+    public boolean checkField(EditText textField){
+        if (textField.getText().toString().isEmpty()){
+            textField.setError("Please fill out this field");
+            valid = false;
+        }
+        else{
+            valid = true;
+        }
+        return valid;
+    }
 
 
 }

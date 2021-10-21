@@ -1,6 +1,7 @@
 package com.example.covstats;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -8,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -22,6 +24,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.eazegraph.lib.charts.PieChart;
@@ -105,75 +108,79 @@ public class World_Data extends AppCompatActivity {
         ShowDialog();
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String apiUrl = "https://corona.lmao.ninja/v2/all";
+        String url = "https://coronavirus-19-api.herokuapp.com/countries/World";
         pieChart.clearChart();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                Request.Method.GET,
-                apiUrl,
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        //Fetching data from API and storing into string
 
-                        try {
-                            str_confirmed = response.getString("cases");
-                            str_confirmed_new = response.getString("todayCases");
-                            str_active = response.getString("active");
-                            str_recovered = response.getString("recovered");
-                            str_recovered_new = response.getString("todayRecovered");
-                            str_death = response.getString("deaths");
-                            str_death_new = response.getString("todayDeaths");
-                            str_tests = response.getString("tests");
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(String response) {
 
-                            pieChart.addPieSlice(new PieModel("Active", Integer.parseInt(str_active), Color.parseColor("#007afe")));
-                            pieChart.addPieSlice(new PieModel("Recovered", Integer.parseInt(str_recovered), Color.parseColor("#08a045")));
-                            pieChart.addPieSlice(new PieModel("Deceased", Integer.parseInt(str_death), Color.parseColor("#F6404F")));
+                try {
 
-                            pieChart.startAnimation();
-                            DissmissDialog();
+                    //JSONArray jsonArray = new JSONArray(response);
 
-                            Handler delayToshowProgress = new Handler();
-                            delayToshowProgress.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
+                    JSONObject jsonObject = new JSONObject(response);
+                    str_confirmed = jsonObject.getString("cases");
+                    str_confirmed_new = jsonObject.getString("todayCases");
+                    str_active = jsonObject.getString("active");
+                    str_recovered = jsonObject.getString("recovered");
+                    str_recovered_new = "1";
+                    str_death = jsonObject.getString("deaths");
+                    str_death_new = jsonObject.getString("todayDeaths");
+                    str_tests = jsonObject.getString("totalTests");
 
-                                    // setting up texted in the text view
-                                    tv_confirmed.setText(NumberFormat.getInstance().format(Integer.parseInt(str_confirmed)));
-                                    tv_confirmed_new.setText("+"+NumberFormat.getInstance().format(Integer.parseInt(str_confirmed_new)));
+                    pieChart.addPieSlice(new PieModel("Active", Integer.parseInt(str_active), Color.parseColor("#007afe")));
+                    pieChart.addPieSlice(new PieModel("Recovered", Integer.parseInt(str_recovered), Color.parseColor("#08a045")));
+                    pieChart.addPieSlice(new PieModel("Deceased", Integer.parseInt(str_death), Color.parseColor("#F6404F")));
 
-                                    tv_active.setText(NumberFormat.getInstance().format(Integer.parseInt(str_active)));
+                    pieChart.startAnimation();
+                    DissmissDialog();
 
-                                    int_active_new = Integer.parseInt(str_confirmed_new)
-                                            - (Integer.parseInt(str_recovered_new) + Integer.parseInt(str_death_new));
-                                    tv_active_new.setText("+"+NumberFormat.getInstance().format(int_active_new));
 
-                                    tv_recovered.setText(NumberFormat.getInstance().format(Integer.parseInt(str_recovered)));
-                                    tv_recovered_new.setText("+"+NumberFormat.getInstance().format(Integer.parseInt(str_recovered_new)));
+                    Handler delayToshowProgress = new Handler();
+                    delayToshowProgress.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            // setting up texted in the text view
+                            tv_confirmed.setText(NumberFormat.getInstance().format(Integer.parseInt(str_confirmed)));
+                            tv_confirmed_new.setText("+"+NumberFormat.getInstance().format(Integer.parseInt(str_confirmed_new)));
 
-                                    tv_death.setText(NumberFormat.getInstance().format(Integer.parseInt(str_death)));
-                                    tv_death_new.setText("+"+NumberFormat.getInstance().format(Integer.parseInt(str_death_new)));
+                            tv_active.setText(NumberFormat.getInstance().format(Integer.parseInt(str_active)));
 
-                                    tv_tests.setText(NumberFormat.getInstance().format(Long.parseLong(str_tests)));
+                            int_active_new = Integer.parseInt(str_confirmed_new)
+                                    - (Integer.parseInt(str_recovered_new) + Integer.parseInt(str_death_new));
+                            tv_active_new.setText("+"+NumberFormat.getInstance().format(int_active_new));
 
-                                }
-                            },1000);
+                            tv_recovered.setText(NumberFormat.getInstance().format(Integer.parseInt(str_recovered)));
+                            tv_recovered_new.setText("N/A");
+
+                            tv_death.setText(NumberFormat.getInstance().format(Integer.parseInt(str_death)));
+                            tv_death_new.setText("+"+NumberFormat.getInstance().format(Integer.parseInt(str_death_new)));
+
+                            tv_tests.setText(NumberFormat.getInstance().format(Long.parseLong(str_tests)));
 
                         }
-                        catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                    },1000);
 
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
 
-                    }
-                });
 
-        requestQueue.add(jsonObjectRequest);
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                System.out.println(error);
+
+            }
+        }
+        );
+
+
+        requestQueue.add(stringRequest);
 
     }
 

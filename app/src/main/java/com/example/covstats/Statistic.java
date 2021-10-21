@@ -96,12 +96,10 @@ public class Statistic extends AppCompatActivity {
         
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String apiUrl = "https://corona.lmao.ninja/v2/countries/bangladesh";
-
+        String url = "https://coronavirus-19-api.herokuapp.com/countries/Bangladesh";
         pieChart.clearChart();
-//        System.out.println(str_confirmed+"==============================");
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, apiUrl, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onResponse(String response) {
@@ -111,16 +109,13 @@ public class Statistic extends AppCompatActivity {
                     //JSONArray jsonArray = new JSONArray(response);
 
                     JSONObject jsonObject = new JSONObject(response);
-
-
                     str_confirmed = jsonObject.getString("cases");   //Confirmed cases
                     str_confirmed_new = jsonObject.getString("todayCases");   //New Confirmed cases from last update time
-
-
+//                    System.out.println(cnt + "  " + startTime + "------------------------------------------");
                     str_active = jsonObject.getString("active");    //Active cases
 
                     str_recovered = jsonObject.getString("recovered");  //Total recovered cased
-                    str_recovered_new = jsonObject.getString("todayRecovered"); //New recovered cases from last update time
+                    str_recovered_new = "55"; //New recovered cases from last update time
 
 
                     str_death = jsonObject.getString("deaths");     //Total deaths
@@ -130,10 +125,8 @@ public class Statistic extends AppCompatActivity {
                     str_last_update_time = "33"; //Last update date and time
 
 
-                    str_tests = jsonObject.getString("tests"); //Total samples tested
+                    str_tests = jsonObject.getString("totalTests"); //Total samples tested
                     str_tests_new = jsonObject.getString("testsPerOneMillion");   //New samples tested today
-
-                    System.out.println("=============================");
 
                     Handler delayToshowProgress = new Handler();
                     delayToshowProgress.postDelayed(new Runnable() {
@@ -145,8 +138,6 @@ public class Statistic extends AppCompatActivity {
 
                             tv_active.setText(NumberFormat.getInstance().format(Integer.parseInt(str_active)));
 
-                            int_active_new = Integer.parseInt(str_confirmed_new)
-                                    - (Integer.parseInt(str_recovered_new) + Integer.parseInt(str_death_new)); //exception for custom
                             tv_active_new.setText("+"+NumberFormat.getInstance().format(int_active_new));
 
                             tv_recovered.setText(NumberFormat.getInstance().format(Integer.parseInt(str_recovered)));
@@ -171,6 +162,7 @@ public class Statistic extends AppCompatActivity {
                     },1000);
 
 
+
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
                 }
@@ -182,7 +174,9 @@ public class Statistic extends AppCompatActivity {
                 System.out.println(error);
 
             }
-        });
+        }
+        );
+
         requestQueue.add(stringRequest);
 
     }
@@ -236,6 +230,7 @@ public class Statistic extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 
 

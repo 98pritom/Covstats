@@ -10,6 +10,7 @@ import static com.example.covstats.Constants.COUNTRY_NEW_DECEASED;
 import static com.example.covstats.Constants.COUNTRY_RECOVERED;
 import static com.example.covstats.Constants.COUNTRY_TESTS;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -64,12 +65,12 @@ public class CountryWiseAdapter extends RecyclerView.Adapter<CountryWiseAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         CountryWiseModel currentItem = countryWiseModelArrayList.get(position);
         String countryName = currentItem.getCountry();
         String countryTotal = currentItem.getConfirmed();
-        String countryFlag = currentItem.getFlag();
+
         String countryRank = String.valueOf(position+1);
         int countryTotalInt = Integer.parseInt(countryTotal);
         Log.d("country rank", countryRank);
@@ -96,7 +97,7 @@ public class CountryWiseAdapter extends RecyclerView.Adapter<CountryWiseAdapter.
             holder.tv_countryName.setText(countryName);
         }
 
-        Glide.with(mContext).load(countryFlag).diskCacheStrategy(DiskCacheStrategy.DATA).into(holder.iv_flagImage);
+//        Glide.with(mContext).diskCacheStrategy(DiskCacheStrategy.DATA).into(holder.iv_flagImage);
 
         holder.lin_country.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,8 +113,8 @@ public class CountryWiseAdapter extends RecyclerView.Adapter<CountryWiseAdapter.
                 perCountryIntent.putExtra(COUNTRY_NEW_CONFIRMED, clickedItem.getNewConfirmed());
                 perCountryIntent.putExtra(COUNTRY_NEW_DECEASED, clickedItem.getNewDeceased());
                 perCountryIntent.putExtra(COUNTRY_TESTS, clickedItem.getTests());
-                perCountryIntent.putExtra(COUNTRY_FLAGURL, clickedItem.getFlag());
 
+                perCountryIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(perCountryIntent);
             }
         });

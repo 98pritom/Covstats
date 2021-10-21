@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.COVSTATS">
         <activity
+            android:name=".Admin"
+            android:exported="true" />
+        <activity
             android:name=".EachCountrydataActivity"
             android:exported="true" />
         <activity
