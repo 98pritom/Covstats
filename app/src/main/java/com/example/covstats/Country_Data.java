@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -60,6 +61,7 @@ public class Country_Data extends AppCompatActivity {
         getSupportActionBar().setTitle("World Data (Select Country)");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
 
         //Initialise all views
         Init();
