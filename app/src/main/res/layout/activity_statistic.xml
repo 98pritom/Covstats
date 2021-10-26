@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/Gray"
+    android:background="#F8F8FA"
     tools:context=".MainActivity">
 
     <androidx.core.widget.NestedScrollView
@@ -424,7 +424,7 @@
                         android:id="@+id/activity_main_world_data_lin"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="?android:attr/selectableItemBackground"
+                        android:background="@color/Strong_Cyan"
                         android:clickable="true"
                         android:focusable="true"
                         android:gravity="center"
@@ -437,7 +437,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="World Data"
-                            android:textColor="@color/Black"
+                            android:textColor="@color/White"
                             android:textSize="16sp"/>
 
                     </LinearLayout>

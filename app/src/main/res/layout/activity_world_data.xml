@@ -402,7 +402,7 @@
                     android:id="@+id/activity_world_data_countrywise_lin"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="?android:attr/selectableItemBackground"
+                    android:background="@color/Strong_Cyan"
                     android:clickable="true"
                     android:focusable="true"
                     android:gravity="center"
@@ -416,7 +416,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
                         android:gravity="center"
-                        android:textColor="@color/Black"
+                        android:textColor="@color/White"
                         android:textSize="16sp" />
 
                 </LinearLayout>

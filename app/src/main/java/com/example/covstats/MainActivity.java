@@ -16,6 +16,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,7 +25,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView logout;
     private ImageView update;
-    private CardView Hospital;
+    private CardView Hospital,Medicine;
+    private TextView Symptom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         update = findViewById(R.id.live_update);
         logout = findViewById(R.id.logout_home);
         Hospital = findViewById(R.id.hospital);
+        Symptom = findViewById(R.id.symptom);
+        Medicine = findViewById(R.id.medicine);
 
         update.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,10 +64,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Symptom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),Symptoms.class));
+            }
+        });
+
         Hospital.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String url = "https://www.doctoradress.com/sylhet-all-hospital-list/";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
+
+        Medicine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = "https://www.webmd.com/drugs/2/index";
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
                 startActivity(i);

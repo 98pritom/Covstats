@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".MainActivity"
+    tools:ignore="SpeakableTextPresentCheck">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="410dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/fever"/>
+
+        <ImageView
+            android:layout_width="410dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/headache" />
+
+        <ImageView
+            android:layout_width="410dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ciugh" />
+
+        <ImageView
+            android:layout_width="410dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/chest_pain" />
+
+
+    </LinearLayout>
+
+
+</HorizontalScrollView>
