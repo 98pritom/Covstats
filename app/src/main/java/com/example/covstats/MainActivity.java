@@ -2,10 +2,14 @@ package com.example.covstats;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -18,8 +22,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button logout;
+    private ImageView logout;
     private ImageView update;
+    private CardView Hospital;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
 //        System.out.println(user.getUid());
 
         update = findViewById(R.id.live_update);
+        logout = findViewById(R.id.logout_home);
+        Hospital = findViewById(R.id.hospital);
 
         update.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,14 +52,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                FirebaseAuth.getInstance().signOut();
+            }
+        });
 
-    public void logout(View view) {
-        FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(getApplicationContext(),LoginActivity.class));
-        finish();
+        Hospital.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = "https://www.doctoradress.com/sylhet-all-hospital-list/";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
+
     }
 
 }
+
 
 

@@ -21,9 +21,13 @@
         <entry key="..\:/Development/COVSTATS/app/src/main/res/layout/activity_splash_screen.xml" value="0.20416666666666666" />
         <entry key="..\:/Development/COVSTATS/app/src/main/res/layout/activity_statistic.xml" value="0.22" />
         <entry key="..\:/Development/COVSTATS/app/src/main/res/layout/activity_world_data.xml" value="0.25" />
+        <entry key="..\:/Development/COVSTATS/app/src/main/res/layout/content_nav_drawer.xml" value="0.1" />
         <entry key="..\:/Development/COVSTATS/app/src/main/res/layout/layout_countrywise.xml" value="0.22" />
+        <entry key="..\:/Development/COVSTATS/app/src/main/res/layout/nav_drawer_menu.xml" value="0.1" />
+        <entry key="..\:/Development/COVSTATS/app/src/main/res/layout/nav_header.xml" value="0.1" />
         <entry key="..\:/Development/COVSTATS/app/src/main/res/layout/progress_dialog.xml" value="0.209375" />
         <entry key="..\:/Development/COVSTATS/app/src/main/res/menu/menu.xml" value="0.209375" />
+        <entry key="..\:/Development/COVSTATS/app/src/main/res/menu/nav_drawer_menu.xml" value="0.1" />
       </map>
     </option>
   </component>
